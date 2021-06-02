@@ -78,6 +78,9 @@ function solve() {
 		board: board.map(value => parseInt(value) || 0),
 	}, (response) => {
 		if(response) {
+			const results = document.getElementById('results')
+			results.innerHTML += '<span class="text-primary">SOLUTION: </span>' + response
+			results.scrollTop = results.scrollHeight
 			promises = response.reduce((promise, move, index) => {
 				return [ ...promise,
 					new Promise((resolve, reject) => setTimeout(function() {
@@ -88,7 +91,9 @@ function solve() {
 				]
 			}, [])
 			Promise.all(promises).then(() => { 
-				alert('Solved!')
+				const steps = response.reduce((orderedlist, step) => { return orderedlist + '<li>' + step + '</li>' }, '')
+				document.getElementById('steps').innerHTML = '<ol>' + steps + '</ol>'
+				halfmoon.toggleModal('solved')
 				document.getElementById('newgame').disabled = false
 				resetColor()
 			})
