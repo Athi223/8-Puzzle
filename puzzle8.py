@@ -48,13 +48,11 @@ class Puzzle:
 			self.__swap([x, y], [x-1, y])
 		elif direction == Direction.right:
 			if y == 2:
-				raise IndexError(
-					"the y coordinate exceeds the range of the puzzle.")
+				raise IndexError("the y coordinate exceeds the range of the puzzle.")
 			self.__swap([x, y], [x, y+1])
 		elif direction == Direction.down:
 			if x == 2:
-				raise IndexError(
-					"the x coordinate exceeds the range of the puzzle.")
+				raise IndexError("the x coordinate exceeds the range of the puzzle.")
 			self.__swap([x, y], [x+1, y])
 		elif direction == Direction.left:
 			if y == 0:
@@ -63,8 +61,7 @@ class Puzzle:
 
 	def __swap(self, coordinate1, coordinate2):
 		tmp = self.puzzle[coordinate1[0], coordinate1[1]]
-		self.puzzle[coordinate1[0], coordinate1[1]
-					] = self.puzzle[coordinate2[0], coordinate2[1]]
+		self.puzzle[coordinate1[0], coordinate1[1]] = self.puzzle[coordinate2[0], coordinate2[1]]
 		self.puzzle[coordinate2[0], coordinate2[1]] = tmp
 
 	def fitness(self):
@@ -83,8 +80,8 @@ class Puzzle:
 class Solver:
 	def __init__(self, MAX_GENERATION, POPULATION_SIZE, board):
 		self.board = board
-		self.MAX_GENERATION = 1000
-		self.POPULATION_SIZE = 20
+		self.MAX_GENERATION = MAX_GENERATION
+		self.POPULATION_SIZE = POPULATION_SIZE
 		self.CHROMOSOME_LENGTH = 20
 		self.NUMBER_OF_SELECTED_CHROMOSOME = 3
 		self.INCREMENT_RANGE_FOR_CHROMOSOME_LENGTH = 50
@@ -92,18 +89,14 @@ class Solver:
 		self.bestSelection = None
 
 	def createChromosome(self, length=20):
-		chromosome = []
 		enums = list(Direction)
-		[chromosome.append(enums[randint(0, 3)]) for i in range(length)]
+		chromosome = [ enums[randint(0, 3)] for i in range(length) ]
 		return chromosome
 
 
 	def initializePopulation(self):
-		population = []
-		[population.append(self.createChromosome(self.CHROMOSOME_LENGTH))
-		for i in range(self.POPULATION_SIZE)]
+		population = [ self.createChromosome(self.CHROMOSOME_LENGTH) for i in range(self.POPULATION_SIZE) ]
 		return population
-
 
 	# <chromosome> (ie List <direction>) applies correction
 	# - 3x3 puzzle also cannot be moved in the same direction 3 times
@@ -128,7 +121,6 @@ class Solver:
 			elif(chromosome[i].isOpposite(chromosome[i-1])):
 				chromosome[i] = chromosome[i-1].getDifferent()
 
-
 	# <chromosome> applies to the start puzzle.
 	# If one of the directions is exiting Puzzle when applied to Puzzle
 	# This direction is replaced by a different axis. 
@@ -145,14 +137,12 @@ class Solver:
 				chromosome[i] = chromosome[i].getDifferentAxis()
 		return [chromosome, puzzle]
 
-
 	def crossover(self, chromosomes, index=0):
 		if (self.NUMBER_OF_SELECTED_CHROMOSOME == index+1):
 			return
 		for i in range(index+1, self.NUMBER_OF_SELECTED_CHROMOSOME):
 			chromosomes += (self.crossing(chromosomes[index], chromosomes[i]))
 		self.crossover(chromosomes, index+1)
-
 
 	def crossing(self, chromosome1, chromosome2):
 		i = randint(0, self.CHROMOSOME_LENGTH//2-1)
@@ -185,10 +175,8 @@ class Solver:
 		res.sort(key=lambda x: x[1].fitness())
 		return res[:self.NUMBER_OF_SELECTED_CHROMOSOME]
 
-
 	def getStrOfChromosome(self, chromosome):
 		return [x.name for x in chromosome]
-
 
 	def solution(self):
 		generation, numOfIncrement, bestmdis = 0, 0, 36
@@ -226,9 +214,6 @@ class Solver:
 				break
 
 			self.crossover(population)
-
-		
-
 
 if __name__ == "__main__":
 	solver = Solver(1000, 20, [ 1, 2, 3, 4, 5, 6, 7, 0, 8 ])

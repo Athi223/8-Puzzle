@@ -59,6 +59,13 @@ function reset(array=[1,2,3,4,5,6,7,8,'&#8203;']) {
 	document.getElementById('parent').innerHTML = blocks
 }
 
+function showModal(title, steps, isSolved) {
+	document.getElementById('modal-title').innerHTML = '<span class="text-' + (isSolved ? 'primary' : 'danger') + '">' + title + '</span>'
+	document.getElementById('modal-steps').innerHTML = steps
+	halfmoon.toggleModal('outcome')
+	document.getElementById('newgame').disabled = false
+}
+
 function solve() {
 	setDraggable(false)
 	document.getElementById('newgame').disabled = true
@@ -92,9 +99,7 @@ function solve() {
 			}, [])
 			Promise.all(promises).then(() => { 
 				const steps = response.reduce((orderedlist, step) => { return orderedlist + '<li>' + step + '</li>' }, '')
-				document.getElementById('steps').innerHTML = '<ol>' + steps + '</ol>'
-				halfmoon.toggleModal('solved')
-				document.getElementById('newgame').disabled = false
+				showModal('SOLVED!', '<ol>' + steps + '</ol>', true)
 				resetColor()
 			})
 		}
@@ -102,6 +107,7 @@ function solve() {
 			const results = document.getElementById('results')
 			results.innerHTML += '<span class="text-danger">NO SOLUTION FOUND!</span>'
 			results.scrollTop = results.scrollHeight
+			showModal('UNSOLVED!', "Algorithm wasn't able to solve the Puzzle", false)
 		}
 	})
 	socket.on('solver', (iteration) => {
