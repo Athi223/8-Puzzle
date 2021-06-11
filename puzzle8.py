@@ -102,22 +102,22 @@ class Solver:
 	# - 3x3 puzzle also cannot be moved in the same direction 3 times
 	# - Making opposite movements in the continuation is pointless / unnecessary 
 	def mutation(self, chromosome):
-		lenght = len(chromosome)
+		length = len(chromosome)
 
-		if (lenght < 2):
+		if (length < 2):
 			return chromosome
 
-		if (lenght < self.CHROMOSOME_LENGTH):
-			chromosome += self.createChromosome(self.CHROMOSOME_LENGTH-lenght)
+		if (length < self.CHROMOSOME_LENGTH):
+			chromosome += self.createChromosome(self.CHROMOSOME_LENGTH-length)
 
 		if (chromosome[0].isOpposite(chromosome[1])):
 			chromosome[1] = chromosome[1].getDifferent()
 
-		for i in range(2, lenght):
-			# peş peşe 3 kere aynı hareket
+		for i in range(2, length):
+			# The same movement for next 3 times 
 			if (chromosome[i].isEqual(chromosome[i-2]) and chromosome[i].isEqual(chromosome[i-1])):
 				chromosome[i] = chromosome[i-1].getDifferentAxis()
-			# zıt yön
+			# opposite direction
 			elif(chromosome[i].isOpposite(chromosome[i-1])):
 				chromosome[i] = chromosome[i-1].getDifferent()
 
@@ -172,6 +172,7 @@ class Solver:
 		for chromosome in chromosomes:
 			tmp = self.applyChromosomeToPuzzle(chromosome)
 			res.append([tmp[0], tmp[1]])
+		# ranked selection
 		res.sort(key=lambda x: x[1].fitness())
 		return res[:self.NUMBER_OF_SELECTED_CHROMOSOME]
 

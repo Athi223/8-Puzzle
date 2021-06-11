@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from puzzle8 import Solver
+from puzzle8 import Solver, Direction, Puzzle
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -24,6 +24,15 @@ def solve(data):
 	except TypeError:
 		return None
 
+@socketio.on('letmetry')
+def letmetry(data):
+	puzzle = Puzzle(data['board'])
+	try:
+		direction = Direction[data['direction']]
+		puzzle.move(direction)
+		return str(puzzle.fitness())
+	except IndexError:
+		return False
 
 if __name__ == '__main__':
 	socketio.run(app, debug=True)

@@ -1,139 +1,133 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>8 Puzzle Solver</title>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Nunito&display=swap" rel="stylesheet">
-	<!-- Halfmoon CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
-	<!-- Halfmoon JS -->
-	<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.1/dist/socket.io.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="static/style.css">
-</head>
-<body>
-	<div class="page-wrapper">
-		<div class="content-wrapper">
-			<div class="container-fluid row p-20">
-				<div class="col-4 offset-1 text-center">
-					<h3 class="mb-0 retroShadow"><b>8 Puzzle Solver</b></h3>
-					<div id="parent" class="row border-top shadow-lg font-size-22 w-400 mx-auto">
-						<div id="1" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">1</h2>
-						</div>
-						<div id="2" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">2</h2>
-						</div>
-						<div id="3" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">3</h2>
-						</div>
-						<div id="4" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">4</h2>
-						</div>
-						<div id="5" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">5</h2>
-						</div>
-						<div id="6" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">6</h2>
-						</div>
-						<div id="7" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">7</h2>
-						</div>
-						<div id="8" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h2 class="card blocks shadow m-15">8</h2>
-						</div>
-						<div id="_" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-							<h3 class="card blocks shadow m-15">&#8203;</h3>
-						</div>
-					</div>
-					<div class="card mx-auto p-20" style="margin-top: 5rem;">
-						<div class="input">
-							<!-- <div class="row my-10">
-								<div class="col-6 pr-5">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Mutation Chance</span>
-										</div>
-										<input type="number" class="form-control" id="MUTATION_CHANCE" value="0.9">
-									</div>
-								</div>
-								<div class="col-6 pl-5">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Crossover Rate</span>
-										</div>
-										<input type="number" class="form-control" id="CROSS_OVER_RATE" value="0.3">
-									</div>
-								</div>
-							</div> -->
-							<div class="row my-20">
-								<div class="col-6 pr-5">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Population Size</span>
-										</div>
-										<input type="number" class="form-control" id="POPULATION_SIZE" value="20">
-									</div>
-								</div>
-								<div class="col-6 pl-5">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">Max Generations</span>
-										</div>
-										<input type="number" class="form-control" id="MAX_GENERATION" value="1000">
-									</div>
-								</div>
+	<head>
+		<title>8 Puzzle Solver</title>
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Nunito&display=swap" rel="stylesheet">
+		<!-- Halfmoon CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+		<!-- Halfmoon JS -->
+		<script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+		<!-- Socket IO -->
+		<script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.1.1/dist/socket.io.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/style.css">
+	</head>
+	<body>
+		<div class="page-wrapper">
+			<div class="content-wrapper">
+				<div class="container-fluid row p-20">
+					<div class="col-4 offset-1 text-center">
+						<h3 class="mb-0 retroShadow"><b>8 Puzzle Solver</b></h3>
+						<div id="parent" class="row border-top shadow-lg font-size-22 w-400 mx-auto">
+							<div id="1" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">1</h2>
 							</div>
-							<button type="button" class="btn btn-lg btn-danger mr-5" onclick="reset()">Reset</button>
-							<button type="button" class="btn btn-lg btn-primary mx-5" onclick="shuffle()">Shuffle</button>
-							<button type="button" class="btn btn-lg btn-success ml-5" onclick="solve()">Solve</button>
+							<div id="2" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">2</h2>
+							</div>
+							<div id="3" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">3</h2>
+							</div>
+							<div id="4" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">4</h2>
+							</div>
+							<div id="5" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">5</h2>
+							</div>
+							<div id="6" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">6</h2>
+							</div>
+							<div id="7" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">7</h2>
+							</div>
+							<div id="8" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">8</h2>
+							</div>
+							<div id="_" class="col-4" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+								<h2 class="card blocks hover shadow m-15">&#8203;</h2>
+							</div>
 						</div>
-						<div class="output d-none">
-							<button type="button" class="btn btn-lg btn-secondary" id="newgame" onclick="newgame()">New Game</button>
-						</div>
-					</div>
-				</div>
-				<div class="col-6 offset-1">
-					<div class="card">
-						<div class="card bg-light">
-							<h5>Instructions:</h5>
+						<div class="card mx-auto p-20" style="margin-top: 5rem;">
 							<div class="input">
-								<ul>
-									<li>Drag and Drop the tiles to create input puzzle&emsp;<b>OR</b>&emsp;Press <span class="text-primary">Shuffle</span> button</li>
-									<li>(Optionally) Press <span class="text-danger">Reset</span> to set tiles to default</li>
-									<li>Press <span class="text-success">Solve</span> to solve the 8 puzzle using Genetic Algorithm</li>
-								</ul>
+								<div class="row my-20">
+									<div class="col-6 pr-5">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">Population Size</span>
+											</div>
+											<input type="number" class="form-control" id="POPULATION_SIZE" value="20">
+										</div>
+									</div>
+									<div class="col-6 pl-5">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">Max Generations</span>
+											</div>
+											<input type="number" class="form-control" id="MAX_GENERATION" value="1000">
+										</div>
+									</div>
+								</div>
+								<button type="button" class="btn btn-danger mr-5" onclick="reset()">Reset</button>
+								<button type="button" class="btn btn-secondary mr-5" onclick="shuffle()">Shuffle</button>
+								<button type="button" class="btn btn-primary mr-5" onclick="letmetry()">Let Me Try</button>
+								<button type="button" class="btn btn-success" onclick="solve()">Auto Solve</button>
 							</div>
 							<div class="output d-none">
-								<ul>
-									<li>Press <span class="text-secondary">New Game</span> button to create a new puzzle</li>
-								</ul>
+								<button type="button" class="btn btn-danger letmetry d-none mr-5" onclick="">Reset to Start</button>
+								<button type="button" class="btn btn-secondary" id="newgame" onclick="newgame()">New Game</button>
 							</div>
 						</div>
 					</div>
-					<div class="card">
-						<div class="card bg-light">
-							<h5>Results:</h5>
-							<i class="input text-muted">Please Create/<span class="text-primary">Shuffle</span> a puzzle and press <span class="text-success">Solve</span> button...</i>
-							<div class="output" id="results"></div>
+					<div class="col-6 offset-1">
+						<div class="card p-25 text-center">
+							<b class="mr-5">Change Theme:</b>
+							<button class="btn btn-primary mx-5" onclick="backgroundTheme()">Background</button>
+							<button class="btn btn-secondary mx-5" onclick="boardTheme()">Board</button>
+							<button class="btn btn-success ml-5" onclick="blockTheme()">Blocks</button>
+						</div>
+						<div class="card p-0">
+							<div class="card bg-light">
+								<h5>Instructions:</h5>
+								<div class="input">
+									<ul>
+										<li>Drag and Drop the tiles to create puzzle&emsp;<b>OR</b>&emsp;Press <span class="text-secondary">Shuffle</span> button</li>
+										<li>(Optionally) Press <span class="text-danger">Reset</span> to set tiles to default</li>
+										<li>Press <span class="text-primary">Let Me Try</span> to attempt to solve the puzzle&emsp;<b>OR</b></li>
+										<li>Press <span class="text-success">Solve</span> to solve the 8 puzzle using Genetic Algorithm</li>
+									</ul>
+								</div>
+								<div class="output d-none">
+									<ul>
+										<li class="letmetry d-none">Press <span class="text-danger">Reset to Start</span> to reset game to initial positions</li>
+										<li>Press <span class="text-secondary">New Game</span> button to create a new puzzle</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="card p-0">
+							<div class="card bg-light">
+								<h5>Status:</h5>
+								<i class="input text-muted">Please Create/<span class="text-secondary">Shuffle</span> a puzzle and press <span class="text-primary">Let Me Try</span> or <span class="text-success">Auto Solve</span></i>
+								<div class="output" id="results"></div>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div class="modal" id="outcome" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<h4 class="modal-title text-center" id="modal-title"></h4>
+							<h5>Steps:</h5>
+							<p id="modal-steps" style="max-height: 30rem;" class="overflow-y-auto"></p>
+							<div class="text-right mt-20">
+								<button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
+							</div>
+						</div>
+					</div>
+				  </div>
 			</div>
-			<div class="modal" id="outcome" tabindex="-1" role="dialog">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<h4 class="modal-title text-center" id="modal-title"></h4>
-						<h5>Steps:</h5>
-						<p id="modal-steps" style="max-height: 30rem;" class="overflow-y-auto"></p>
-						<div class="text-right mt-20">
-							<button class="btn mr-5" data-dismiss="modal" type="button">Close</button>
-						</div>
-					</div>
-				</div>
-			  </div>
 		</div>
-	</div>
-	<script type="text/javascript" src="static/script.js"></script>
-</body>
+		<script type="text/javascript" src="static/script.js"></script>
+	</body>
 </html>
