@@ -2,6 +2,11 @@
 
 This project is a Web App that creates and solves the 8 Puzzle Problem using Genetic Algorithm.
 
+
+## Preview
+
+![ImgBB](https://i.ibb.co/3FCNmN6/8-puzzle.png)
+
 ## Languages used:
 
 * Python (Server Backend & Business Logic)
