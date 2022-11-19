@@ -113,7 +113,7 @@ class Solver:
 		if (chromosome[0].isOpposite(chromosome[1])):
 			chromosome[1] = chromosome[1].getDifferent()
 
-		for i in range(2, length):
+		for i in range(2, self.CHROMOSOME_LENGTH):
 			# The same movement for next 3 times 
 			if (chromosome[i].isEqual(chromosome[i-2]) and chromosome[i].isEqual(chromosome[i-1])):
 				chromosome[i] = chromosome[i-1].getDifferentAxis()
