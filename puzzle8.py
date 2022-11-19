@@ -119,7 +119,10 @@ class Solver:
 				chromosome[i] = chromosome[i-1].getDifferentAxis()
 			# opposite direction
 			elif(chromosome[i].isOpposite(chromosome[i-1])):
-				chromosome[i] = chromosome[i-1].getDifferent()
+				if(chromosome[i-1].isEqual(chromosome[i-2])):
+					chromosome[i] = chromosome[i].getDifferentAxis()
+				else:
+					chromosome[i] = chromosome[i].getDifferent()
 
 	# <chromosome> applies to the start puzzle.
 	# If one of the directions is exiting Puzzle when applied to Puzzle
